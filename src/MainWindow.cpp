@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include <QTextFrame>
+#include <QFileDialog>
 
 #include <iostream>
 
@@ -19,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->m_projectTreeView->setRootIndex(m_projectDirModel.setRootPath(QDir::currentPath()));
 
   connect(ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
+  connect(ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
+  connect(ui->m_sensorsLogButton, SIGNAL(clicked(bool)), this, SLOT(pushSensorsLogButton()));
 }
 
 MainWindow::~MainWindow()
@@ -52,4 +55,22 @@ void MainWindow::printSensorsLog()
   //  sensorsDecoder.printDebug("traceSensorsVector.txt");
 
   m_projectDirModel.getCheckedFiles();
+}
+
+void MainWindow::pushProjectDirButton()
+{
+  QString projectDirPath = QFileDialog::getExistingDirectory(0, "Выберите директорию с проектом...", QDir::homePath());
+  if (!projectDirPath.isEmpty())
+  {
+    ui->m_projectDirLineEdit->setText(projectDirPath);
+  }
+}
+
+void MainWindow::pushSensorsLogButton()
+{
+  QString sensorsLogPath = QFileDialog::getOpenFileName(0, "Выбирете файл лога с сенсорами...");
+  if (!sensorsLogPath.isEmpty())
+  {
+    ui->m_sensorsLogLineEdit->setText(sensorsLogPath);
+  }
 }

@@ -3,7 +3,7 @@
 
 #include "include/SensorsReader.h"
 #include "include/SensorsDecoder.h"
-#include "include/ProjectModel.h"
+#include "include/ProjectDirModel.h"
 
 #include <QMainWindow>
 
@@ -21,9 +21,12 @@ public:
 
   Q_SLOT void printSensorsLog();
 
+  Q_SLOT void pushProjectDirButton();
+  Q_SLOT void pushSensorsLogButton();
+
 private:
   Ui::MainWindow *ui;
-  ProjectModel m_projectDirModel;
+  ProjectDirModel m_projectDirModel;
 }; // class MainWindow
 
 #endif // MAINWINDOW_H
