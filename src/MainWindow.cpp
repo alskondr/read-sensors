@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->m_projectTreeView->setColumnHidden(2, true);
   ui->m_projectTreeView->setColumnHidden(3, true);
   ui->m_projectTreeView->setColumnHidden(4, true);
-  ui->m_projectTreeView->setRootIndex(m_projectDirModel.setRootPath(QDir::currentPath()));
+  ui->m_projectTreeView->setRootIndex(m_projectDirModel.index(QDir::homePath()));
+  m_projectDirModel.setData(m_projectDirModel.index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
 
   connect(ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
   connect(ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
