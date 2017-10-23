@@ -1,4 +1,4 @@
-PROJECT_VERSION = 1.0
+PROJECT_VERSION = 1.1
 
 QT += core gui
 
