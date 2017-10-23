@@ -1,3 +1,5 @@
+PROJECT_VERSION = 1.0
+
 QT += core gui
 
 CONFIG += c++11
@@ -32,4 +34,4 @@ HEADERS += \
     include/MainWindow.h
 
 FORMS += \
-    src/MainWindow.ui
+    forms/MainWindow.ui
