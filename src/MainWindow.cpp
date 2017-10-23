@@ -1,7 +1,8 @@
-#include "MainWindow.h"
+#include "include/MainWindow.h"
 #include "ui_MainWindow.h"
 
 #include <QTextFrame>
+#include <QFileDialog>
 
 #include <iostream>
 
@@ -12,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
 
   connect(ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
+  connect(ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
+  connect(ui->m_sensorsLogButton, SIGNAL(clicked(bool)), this, SLOT(pushSensorsLogButton()));
 }
 
 MainWindow::~MainWindow()
@@ -19,7 +22,7 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-MainWindow::printSensorsLog()
+void MainWindow::printSensorsLog()
 {
   // Ищем все датчики в директории с проектом
   SensorsReader sensorsReader(ui->m_sensorNameLineEdit->text());
@@ -42,4 +45,22 @@ MainWindow::printSensorsLog()
   std::cout << "Amount print unique sensors = " << sensorsDecoder.getAmountPrintUniqueSensors() << std::endl;
 
   //  sensorsDecoder.printDebug("traceSensorsVector.txt");
+}
+
+void MainWindow::pushProjectDirButton()
+{
+  QString projectDirPath = QFileDialog::getExistingDirectory(0, "Выберите директорию с проектом...", QDir::homePath());
+  if (!projectDirPath.isEmpty())
+  {
+    ui->m_projectDirLineEdit->setText(projectDirPath);
+  }
+}
+
+void MainWindow::pushSensorsLogButton()
+{
+  QString sensorsLogPath = QFileDialog::getOpenFileName(0, "Выбирете файл лога с сенсорами...");
+  if (!sensorsLogPath.isEmpty())
+  {
+    ui->m_sensorsLogLineEdit->setText(sensorsLogPath);
+  }
 }

@@ -18,7 +18,10 @@ public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
 
-  Q_SLOT printSensorsLog();
+  Q_SLOT void printSensorsLog();
+
+  Q_SLOT void pushProjectDirButton();
+  Q_SLOT void pushSensorsLogButton();
 
 private:
   Ui::MainWindow *ui;

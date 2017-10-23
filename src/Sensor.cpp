@@ -1,4 +1,4 @@
-#include "Sensor.h"
+#include "include/Sensor.h"
 
 Sensor::Sensor(QString fileName, int line, QString sensorName, int sensorNumber, int sensorState, QString stringWithSensor)
 {

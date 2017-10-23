@@ -1,4 +1,4 @@
-#include "SensorsReader.h"
+#include "include/SensorsReader.h"
 
 #include <QDir>
 #include <QFile>
