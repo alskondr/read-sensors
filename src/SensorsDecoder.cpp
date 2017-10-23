@@ -1,4 +1,4 @@
-#include "SensorsDecoder.h"
+#include "include/SensorsDecoder.h"
 
 #include <QFile>
 #include <QTextStream>

@@ -12,7 +12,8 @@ SOURCES += src/main.cpp \
     src/SensorsReader.cpp \
     src/Sensor.cpp \
     src/SensorsDecoder.cpp \
-    src/MainWindow.cpp
+    src/MainWindow.cpp \
+    src/ProjectModel.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -29,7 +30,8 @@ HEADERS += \
     include/SensorsReader.h \
     include/Sensor.h \
     include/SensorsDecoder.h \
-    include/MainWindow.h
+    include/MainWindow.h \
+    include/ProjectModel.h
 
 FORMS += \
     src/MainWindow.ui
