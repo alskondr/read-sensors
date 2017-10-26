@@ -33,7 +33,7 @@ public:
    */
   void checkRelativeData(const QModelIndex& index);
 private:
-  mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //! Мапа отметок файлов и папок
+  mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
 }; // class ProjectModel
 
 #endif // INCLUDEPROJECTMODEL_H
