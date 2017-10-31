@@ -9,20 +9,23 @@ public:
   /*!
    * \brief Конструктор класса Sensor
    * \param fileName - Имя файла с датчиком
-   * \param line - Номер строки с датчиком
+   * \param lineNumber - Номер строки с датчиком
+   * \param sensorName - Название датчика
+   * \param sensorNumber - Номер датчика
+   * \param sensorState - Состояние датчика
    * \param stringWithSensor - Строка, содержащая датчик
    */
-  Sensor(QString fileName, int line, QString sensorName, int sensorNumber, int sensorState, QString stringWithSensor);
+  Sensor(QString fileName, int lineNumber, QString sensorName, int sensorNumber, int sensorState, QString stringWithSensor);
 
   /*!
    * \brief Сериализация сенсора в QString
    * \return QString с описанием датчика
    */
-  QString toQString() const;
+  QString toQString();
 
   QString getFileName() const;
 
-  int getLine() const;
+  unsigned getLineNumber() const;
 
   QString getStringWithSensor() const;
 
@@ -34,7 +37,7 @@ public:
 
 private:
   QString m_fileName; //! Имя файла, в котором найден датчик
-  int m_line; //! Номер строки, в которой найден датчик
+  unsigned m_lineNumber; //! Номер строки, в которой найден датчик
   QString m_sensorName; //! Имя датчика
   int m_sensorNumber; //! Номер датчика
   int m_sensorState; //! Состояние датчика

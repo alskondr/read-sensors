@@ -1,51 +1,41 @@
 #ifndef PROJECTMODEL_H
 #define PROJECTMODEL_H
 
-#include <include/ProjectDirModel.h>
-
 #include <QSettings>
+
+#include <memory>
+#include <vector>
+
+class ProjectSettings;
+class Sensor;
 
 class ProjectModel
 {
 public:
   ProjectModel();
+  ~ProjectModel();
 
   /*!
-   * \brief Сохранение настроек программы
+   * \brief Поиск датчиков в указанных файлах
+   * \param projectFiles - Список файлов, в которых необходимо искать датчики
+   * \return Список датчиков, найденных в указанных файлах
    */
-  void saveSettings();
+  std::vector<std::shared_ptr<Sensor>> readSensors(const QStringList& projectFiles);
 
   /*!
-   * \brief Загрузка настроек программы
+   * \brief Вывод информации по датчикам в файл
+   * \param sensorsList - Список датчиков
+   * \param traceName - Имя выходного файла
+   * \return Статус (0 - ошибка, 1 - успех)
    */
-  void loadSettings();
+  bool printSensors(const std::vector<std::shared_ptr<Sensor>>& sensorsList, const QString& traceName);
 
-  // Setters and getters
-  ProjectDirModel& getProjectDirModel();
-
-  QString getSensorName() const;
-  void setSensorName(const QString& sensorName);
-
-  QString getProjectDir() const;
-  void setProjectDir(const QString& projectDir);
-
-  QString getSensorsLogFileName() const;
-  void setSensorsLogFileName(const QString& sensorsLogFileName);
-
-  unsigned getSensorsLogSize() const;
-  void setSensorsLogSize(const unsigned& sensorsLogSize);
+  const std::shared_ptr<ProjectSettings>& getProjectSettings() const;
+  void setProjectSettings(const std::shared_ptr<ProjectSettings>& projectSettings);
 
 private:
+  std::shared_ptr<ProjectSettings> m_projectSettings; //!< Параметры работы программы
 
-  ProjectDirModel m_projectDirModel; //!< Модель директории с проектом
-
-  QString m_sensorName; //!< Имя датчика
-  QString m_projectDir; //!< Путь к директории с проектом
-  QString m_sensorsLogFileName; //!< Путь к файлу с логом датчиков
-  unsigned m_sensorsLogSize; //!< Ориентировочный размер файла с логом датчиков
-  QString m_configFileName; //!< Путь к конфигурационному файлу
-
-  QSettings m_settings; //!< Настройки программы
 }; // class ProjectModel
 
 #endif // PROJECTMODEL_H

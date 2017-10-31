@@ -2,7 +2,7 @@
 
 #include <QColor>
 
-Log::Log(QString fileName):
+Log::Log(const QString& fileName):
   m_logFile(fileName)
 {
   m_logFile.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -14,7 +14,7 @@ Log::~Log()
   m_logFile.close();
 }
 
-void Log::printStringToLog(QString message, unsigned level, QColor color)
+void Log::printStringToLog(QString message, unsigned level, QColor color = Qt::black)
 {
   m_logStream << message;
 }

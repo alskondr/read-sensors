@@ -3,8 +3,8 @@
 
 #include <QDirModel>
 
-class ProjectDirModel :
-    public QDirModel
+class ProjectDirModel:
+  public QDirModel
 {
 public:
   ProjectDirModel();
@@ -34,6 +34,6 @@ public:
   void checkRelativeData(const QModelIndex& index);
 private:
   mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
-}; // class ProjectModel
+}; // class ProjectDirModel
 
 #endif // INCLUDEPROJECTMODEL_H

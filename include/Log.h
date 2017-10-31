@@ -7,7 +7,7 @@
 class Log
 {
 public:
-  Log(QString fileName);
+  Log(const QString& fileName);
 
   ~Log();
 
@@ -17,7 +17,7 @@ public:
    * \param level - уровень вывода
    * \param color - цвет строки
    */
-  void printStringToLog(QString message, unsigned level, QColor color = Qt::black);
+  void printStringToLog(QString message, unsigned level, QColor color);
 
 private:
   QFile m_logFile; //!< Файл с логом программы

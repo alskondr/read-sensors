@@ -17,7 +17,8 @@ SOURCES += src/main.cpp \
     src/MainWindow.cpp \
     src/ProjectDirModel.cpp \
     src/ProjectModel.cpp \
-    src/Log.cpp
+    src/Log.cpp \
+    src/ProjectSettings.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -37,7 +38,8 @@ HEADERS += \
     include/MainWindow.h \
     include/ProjectDirModel.h \
     include/ProjectModel.h \
-    include/Log.h
+    include/Log.h \
+    include/ProjectSettings.h
 
 FORMS += \
     forms/MainWindow.ui

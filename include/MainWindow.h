@@ -1,22 +1,23 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <include/SensorsReader.h>
-#include <include/SensorsDecoder.h>
-#include <include/ProjectModel.h>
-
 #include <QMainWindow>
+
+#include <memory>
 
 namespace Ui {
   class MainWindow;
 }
+
+class ProjectModel;
+class ProjectDirModel;
 
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
 public:
-  explicit MainWindow(QWidget *parent = 0);
+  MainWindow(QWidget *parent = 0);
   ~MainWindow();
 
   /*!
@@ -35,8 +36,9 @@ public:
   Q_SLOT void pushSensorsLogButton();
 
 private:
-  Ui::MainWindow *m_ui; //!< Форма главного окна
-  ProjectModel m_projectModel; //!< Модель данных программы
+  std::unique_ptr<Ui::MainWindow> m_ui; //!< Форма главного окна
+  std::unique_ptr<ProjectModel> m_projectModel; //!< Модель данных программы
+  std::unique_ptr<ProjectDirModel> m_projectDirModel; //!< Модель данных для дерева проекта
 
 }; // class MainWindow
 

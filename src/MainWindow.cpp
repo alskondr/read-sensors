@@ -1,5 +1,10 @@
-#include "include/MainWindow.h"
-#include "ui_MainWindow.h"
+#include <include/MainWindow.h>
+#include <ui_MainWindow.h>
+
+#include <include/ProjectModel.h>
+#include <include/ProjectDirModel.h>
+//#include <include/SensorsReader.h>
+//#include <include/SensorsDecoder.h>
 
 #include <QTextFrame>
 #include <QFileDialog>
@@ -8,17 +13,19 @@
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  m_ui(new Ui::MainWindow)
+  m_ui(new Ui::MainWindow),
+  m_projectModel(new ProjectModel),
+  m_projectDirModel(new ProjectDirModel)
 {
   m_ui->setupUi(this);
 
-  m_ui->m_projectTreeView->setModel(&m_projectModel.getProjectDirModel());
+  m_ui->m_projectTreeView->setModel(m_projectDirModel.get());
   m_ui->m_projectTreeView->setColumnHidden(1, true);
   m_ui->m_projectTreeView->setColumnHidden(2, true);
   m_ui->m_projectTreeView->setColumnHidden(3, true);
   m_ui->m_projectTreeView->setColumnHidden(4, true);
-  m_ui->m_projectTreeView->setRootIndex(m_projectModel.getProjectDirModel().index(QDir::homePath()));
-  m_projectModel.getProjectDirModel().setData(m_projectModel.getProjectDirModel().index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
+  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(QDir::homePath()));
+  m_projectDirModel->setData(m_projectDirModel->index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
 
   connect(m_ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
   connect(m_ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
@@ -27,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-  delete m_ui;
 }
 
 void MainWindow::printSensorsLog()
@@ -55,7 +61,7 @@ void MainWindow::printSensorsLog()
 
   //  sensorsDecoder.printDebug("traceSensorsVector.txt");
 
-  m_projectModel.getProjectDirModel().getCheckedFiles();
+  m_projectDirModel->getCheckedFiles();
 }
 
 void MainWindow::pushProjectDirButton()
