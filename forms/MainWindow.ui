@@ -68,108 +68,78 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QWidget" name="m_sensorNameWidget" native="true">
-              <property name="toolTip">
-               <string/>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>Работа с проектом</string>
               </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QLabel" name="m_sensorNameLabel">
+                <widget class="QWidget" name="m_sensorNameWidget" native="true">
                  <property name="toolTip">
-                  <string>Имя датчика, который необходимо искать в проекте</string>
+                  <string/>
                  </property>
-                 <property name="text">
-                  <string>Имя датчика:</string>
+                 <property name="statusTip">
+                  <string/>
                  </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <widget class="QLabel" name="m_sensorNameLabel">
+                    <property name="toolTip">
+                     <string>Имя датчика, который необходимо искать в проекте</string>
+                    </property>
+                    <property name="text">
+                     <string>Имя датчика:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="m_sensorNameLineEdit"/>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="m_sensorNameLineEdit"/>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="m_projectDirWidget" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="m_projectDirLabel">
-                 <property name="toolTip">
-                  <string>Директория, в которой располагаются файлы проекта</string>
-                 </property>
-                 <property name="text">
-                  <string>Директория с проектом:</string>
-                 </property>
+                <widget class="QWidget" name="m_projectDirWidget" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <item>
+                   <widget class="QLabel" name="m_projectDirLabel">
+                    <property name="toolTip">
+                     <string>Директория, в которой располагаются файлы проекта</string>
+                    </property>
+                    <property name="text">
+                     <string>Директория с проектом:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="m_projectDirLineEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="m_projectDirButton">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Выбрать директорию с проектом</string>
+                    </property>
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="m_projectDirLineEdit"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="m_projectDirButton">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
+                <widget class="QPushButton" name="m_findAllSensorsButton">
                  <property name="toolTip">
-                  <string>Выбрать директорию с проектом</string>
+                  <string>Поиск датчиков во всех файлах проекта</string>
                  </property>
                  <property name="text">
-                  <string>...</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="m_findAllSensorsButton">
-              <property name="toolTip">
-               <string>Поиск датчиков во всех файлах проекта</string>
-              </property>
-              <property name="text">
-               <string>Поиск датчиков во всем проекте</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="m_findCheckedSensorsButton">
-              <property name="toolTip">
-               <string>Поиск датчиков только в отмеченных файлах проекта</string>
-              </property>
-              <property name="text">
-               <string>Поиск датчиков в отмеченных файлах проекта</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QWidget" name="m_sensorsLogWidget" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QLabel" name="m_sensorsLogLabel">
-                 <property name="toolTip">
-                  <string>Файл с логом датчиков</string>
-                 </property>
-                 <property name="text">
-                  <string>Файл с датчиками:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="m_sensorsLogLineEdit"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="m_sensorsLogButton">
-                 <property name="toolTip">
-                  <string>Выбрать файл с датчиками</string>
-                 </property>
-                 <property name="text">
-                  <string>...</string>
+                  <string>Поиск датчиков</string>
                  </property>
                 </widget>
                </item>
@@ -177,69 +147,107 @@
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="m_logSizeWidget" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Работа с логом датчиков</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <widget class="QLabel" name="m_logSizeLabel">
+                <widget class="QWidget" name="m_sensorsLogWidget" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="m_sensorsLogLabel">
+                    <property name="toolTip">
+                     <string>Файл с логом датчиков</string>
+                    </property>
+                    <property name="text">
+                     <string>Файл с датчиками:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="m_sensorsLogLineEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="m_sensorsLogButton">
+                    <property name="toolTip">
+                     <string>Выбрать файл с датчиками</string>
+                    </property>
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="m_logSizeWidget" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="m_logSizeLabel">
+                    <property name="toolTip">
+                     <string>Примерный размер результирующего файла с датчиками</string>
+                    </property>
+                    <property name="text">
+                     <string>Размер результирующего файла:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="m_logSizeLineEdit"/>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="m_logSizeComboBox">
+                    <property name="toolTip">
+                     <string>Размерность веса файла с датчиками</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Б</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>КБ</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>МБ</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>ГБ</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="m_readLogButton">
                  <property name="toolTip">
-                  <string>Примерный размер результирующего файла с датчиками</string>
+                  <string>Проанализировать файл с датчиками</string>
                  </property>
                  <property name="text">
-                  <string>Размер результирующего файла:</string>
+                  <string>Анализ файла с датчиками</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="m_logSizeLineEdit"/>
-               </item>
-               <item>
-                <widget class="QComboBox" name="m_logSizeComboBox">
+                <widget class="QPushButton" name="m_printSensorsButton">
                  <property name="toolTip">
-                  <string>Размерность веса файла с датчиками</string>
+                  <string>Дописать логдатчиков в файл</string>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>Б</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>КБ</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>МБ</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>ГБ</string>
-                  </property>
-                 </item>
+                 <property name="text">
+                  <string>Записать лог датчиков в файл</string>
+                 </property>
                 </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="m_readLogButton">
-              <property name="toolTip">
-               <string>Проанализировать файл с датчиками</string>
-              </property>
-              <property name="text">
-               <string>Анализ файла с датчиками</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="m_printSensorsButton">
-              <property name="toolTip">
-               <string>Дописать логдатчиков в файл</string>
-              </property>
-              <property name="text">
-               <string>Записать лог датчиков в файл</string>
-              </property>
              </widget>
             </item>
            </layout>

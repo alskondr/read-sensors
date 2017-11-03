@@ -1,13 +1,14 @@
 #ifndef PROJECTMODEL_H
 #define PROJECTMODEL_H
 
+#include <include/Sensor.h>
+
 #include <QSettings>
 
 #include <memory>
 #include <vector>
 
 class ProjectSettings;
-class Sensor;
 
 class ProjectModel
 {
@@ -17,10 +18,10 @@ public:
 
   /*!
    * \brief Поиск датчиков в указанных файлах
-   * \param projectFiles - Список файлов, в которых необходимо искать датчики
+   * \param projectFiles - Список файлов с абсолютными путями, в которых необходимо искать датчики
    * \return Список датчиков, найденных в указанных файлах
    */
-  std::vector<std::shared_ptr<Sensor>> readSensors(const QStringList& projectFiles);
+  std::vector<std::shared_ptr<Sensor>> readSensors(const QStringList& projectFilesList);
 
   /*!
    * \brief Вывод информации по датчикам в файл

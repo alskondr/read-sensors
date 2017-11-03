@@ -3,8 +3,7 @@
 
 #include <include/ProjectModel.h>
 #include <include/ProjectDirModel.h>
-//#include <include/SensorsReader.h>
-//#include <include/SensorsDecoder.h>
+#include <include/ProjectSettings.h>
 
 #include <QTextFrame>
 #include <QFileDialog>
@@ -19,13 +18,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   m_ui->setupUi(this);
 
+  m_projectSettings = m_projectModel->getProjectSettings();
+
+  m_projectSettings->loadSettings();
+  printSettingsToForm();
+
   m_ui->m_projectTreeView->setModel(m_projectDirModel.get());
   m_ui->m_projectTreeView->setColumnHidden(1, true);
   m_ui->m_projectTreeView->setColumnHidden(2, true);
   m_ui->m_projectTreeView->setColumnHidden(3, true);
   m_ui->m_projectTreeView->setColumnHidden(4, true);
-  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(QDir::homePath()));
-  m_projectDirModel->setData(m_projectDirModel->index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
+//  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(QDir::homePath()));
+//  m_projectDirModel->setData(m_projectDirModel->index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
 
   connect(m_ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
   connect(m_ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
@@ -80,4 +84,19 @@ void MainWindow::pushSensorsLogButton()
   {
     m_ui->m_sensorsLogLineEdit->setText(sensorsLogPath);
   }
+}
+
+void MainWindow::buildProject()
+{
+
+}
+
+void MainWindow::printSettingsToForm()
+{
+  m_ui->m_sensorNameLineEdit->setText(m_projectSettings->getSensorName());
+}
+
+void MainWindow::readSettingsFromForm()
+{
+  m_projectSettings->setSensorName(m_ui->m_sensorNameLineEdit->text());
 }

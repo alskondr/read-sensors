@@ -11,6 +11,7 @@ namespace Ui {
 
 class ProjectModel;
 class ProjectDirModel;
+class ProjectSettings;
 
 class MainWindow : public QMainWindow
 {
@@ -35,10 +36,27 @@ public:
    */
   Q_SLOT void pushSensorsLogButton();
 
+  /*!
+   * \brief Поиск датчиков в проекте
+   */
+  Q_SLOT void buildProject();
+
 private:
+  /*!
+   * \brief Вывод настроек проекта на форму
+   */
+  void printSettingsToForm();
+
+  /*!
+   * \brief Чтение настроек проекта с формы
+   */
+  void readSettingsFromForm();
+
   std::unique_ptr<Ui::MainWindow> m_ui; //!< Форма главного окна
   std::unique_ptr<ProjectModel> m_projectModel; //!< Модель данных программы
   std::unique_ptr<ProjectDirModel> m_projectDirModel; //!< Модель данных для дерева проекта
+
+  std::shared_ptr<ProjectSettings> m_projectSettings; //!< Настройки проекта
 
 }; // class MainWindow
 
