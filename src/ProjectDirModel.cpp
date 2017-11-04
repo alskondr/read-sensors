@@ -32,26 +32,49 @@ QVariant ProjectDirModel::data(const QModelIndex& index, int role) const
   return QDirModel::data(index, role);
 }
 
-QStringList ProjectDirModel::getCheckedFiles()
+QStringList ProjectDirModel::getCheckedFiles(const QString& dirName)
 {
+  QStringList allFiles = getAllFiles(dirName);
+
   QStringList checkedFiles;
-  for (QMap<QModelIndex, Qt::CheckState>::Iterator it = m_checkedItems.begin(); it != m_checkedItems.end(); it++)
+  for (auto it = m_checkedItems.begin(); it != m_checkedItems.end(); it++)
   {
-    if (!isDir(it.key()) && it.value() == Qt::Checked)
+    QString absoluteFileName = this->filePath(it.key());
+    if (!isDir(it.key()) && it.value() == Qt::Checked && allFiles.contains(absoluteFileName))
     {
       checkedFiles.push_back(filePath(it.key()));
     }
   }
+
   return checkedFiles;
 }
 
-QStringList ProjectDirModel::getAllFiles()
+QStringList ProjectDirModel::getAllFiles(const QString& dirName)
 {
   QStringList allFiles;
-  for (QMap<QModelIndex, Qt::CheckState>::Iterator it = m_checkedItems.begin(); it != m_checkedItems.end(); it++)
+
+  // Получение файлов в текущей папке
+  QDir dir(dirName);
+  if (!dir.exists())
+    return allFiles;
+  QStringList fileList = dir.entryList(QDir::Files);
+  for (auto it = fileList.begin(); it != fileList.end(); it++)
   {
-    allFiles.push_back(filePath(it.key()));
+    QString fileName = dir.absoluteFilePath(*it);
+    allFiles.push_back(fileName);
   }
+
+  // Рекурсивный поиск в подпапках
+  QStringList dirList = dir.entryList(QDir::Dirs);
+  dirList.removeOne(".");
+  dirList.removeOne("..");
+  for (auto it = dirList.begin(); it != dirList.end(); it++)
+  {
+    QDir currDir = dir;
+    currDir.cd(*it);
+    allFiles.append(getAllFiles(currDir.absolutePath()));
+  }
+
   return allFiles;
 }
 

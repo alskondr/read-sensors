@@ -21,7 +21,7 @@ public:
    * \param projectFiles - Список файлов с абсолютными путями, в которых необходимо искать датчики
    * \return Список датчиков, найденных в указанных файлах
    */
-  std::vector<std::shared_ptr<Sensor>> readSensors(const QStringList& projectFilesList);
+  std::vector<Sensor> readSensors(const QStringList& projectFilesList);
 
   /*!
    * \brief Вывод информации по датчикам в файл
@@ -29,7 +29,7 @@ public:
    * \param traceName - Имя выходного файла
    * \return Статус (0 - ошибка, 1 - успех)
    */
-  bool printSensors(const std::vector<std::shared_ptr<Sensor>>& sensorsList, const QString& traceName);
+  static bool printSensors(std::vector<Sensor>& sensorsList, const QString& traceName);
 
   const std::shared_ptr<ProjectSettings>& getProjectSettings() const;
   void setProjectSettings(const std::shared_ptr<ProjectSettings>& projectSettings);

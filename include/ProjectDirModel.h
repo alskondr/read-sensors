@@ -16,22 +16,28 @@ public:
   QVariant data( const QModelIndex& index, int role ) const;
 
   /*!
-   * \brief Формирование списка отмеченных файлов
+   * \brief Рекурсивное формирование списка отмеченных файлов из указанной директории
+   * \param Имя папки
    * \return Список отмеченных файлов
    */
-  QStringList getCheckedFiles();
+  QStringList getCheckedFiles(const QString& dirName);
 
   /*!
-   * \brief Формирование списка всех файлов
+   * \brief Рекурсивное формирование списка всех файлов из указанной директории
+   * \param Имя папки
    * \return Список всех файлов
    */
-  QStringList getAllFiles();
+  QStringList getAllFiles(const QString& dirName);
 
   /*!
    * \brief Внесение отметок для родственных узлов дерева для текущего узла
    * \param index - узел, для которого отмечаются родственники
    */
   void checkRelativeData(const QModelIndex& index);
+
+  /*!
+   * \todo Добавить функцию отметки списка файлов
+   */
 private:
   mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
 }; // class ProjectDirModel

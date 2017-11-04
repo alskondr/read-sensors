@@ -3,6 +3,7 @@
 #include <include/ProjectSettings.h>
 
 #include <QDir>
+#include <iostream>
 
 ProjectModel::ProjectModel()
 {
@@ -13,9 +14,9 @@ ProjectModel::~ProjectModel()
 {
 }
 
-std::vector<std::shared_ptr<Sensor>> ProjectModel::readSensors(const QStringList& projectFilesList)
+std::vector<Sensor> ProjectModel::readSensors(const QStringList& projectFilesList)
 {
-  std::vector<std::shared_ptr<Sensor>> sensorsList;
+  std::vector<Sensor> sensorsList;
 
   // Перебор всех файлов проекта и поиск датчиков в них
   for (auto it = projectFilesList.begin(); it != projectFilesList.end(); it++)
@@ -28,6 +29,8 @@ std::vector<std::shared_ptr<Sensor>> ProjectModel::readSensors(const QStringList
     if (!parseFile.isOpen())
       break;
 
+    std::cout << it->toStdString() << std::endl;
+
     int strNumder = 0;
     while (!parseFile.atEnd())
     {
@@ -39,7 +42,7 @@ std::vector<std::shared_ptr<Sensor>> ProjectModel::readSensors(const QStringList
         int endSensorParametrs = data.indexOf(")", startSensorParametrs);
         QString sensorParametrs = data.mid(startSensorParametrs, endSensorParametrs - startSensorParametrs);
         QStringList param = sensorParametrs.split(",", QString::SkipEmptyParts);
-        std::shared_ptr<Sensor> sensor(new Sensor(parseFile.fileName(), strNumder, m_projectSettings->getSensorName(), param.at(0).toInt(), param.at(1).toInt(), data));
+        Sensor sensor(parseFile.fileName(), strNumder, m_projectSettings->getSensorName(), param.at(0).toInt(), param.at(1).toInt(), data);
         sensorsList.push_back(sensor);
       }
     }
@@ -50,7 +53,7 @@ std::vector<std::shared_ptr<Sensor>> ProjectModel::readSensors(const QStringList
   return sensorsList;
 }
 
-bool ProjectModel::printSensors(const std::vector<std::shared_ptr<Sensor>>& sensorsList, const QString& traceName)
+bool ProjectModel::printSensors(std::vector<Sensor>& sensorsList, const QString& traceName)
 {
   QFile trace(traceName);
   trace.open(QIODevice::WriteOnly);
@@ -61,15 +64,15 @@ bool ProjectModel::printSensors(const std::vector<std::shared_ptr<Sensor>>& sens
   QString currFile;
   for (auto it = sensorsList.begin(); it != sensorsList.end(); it++)
   {
-    if (QString::compare(currFile, (*it)->getFileName()) != 0)
+    if (QString::compare(currFile, it->getFileName()) != 0)
     {
-      currFile = (*it)->getFileName();
+      currFile = it->getFileName();
       trace.write("File ");
       trace.write(currFile.toStdString().c_str());
       trace.write("\n");
     }
     trace.write("  ");
-    trace.write((*it)->toQString().toStdString().c_str());
+    trace.write(it->toQString().toStdString().c_str());
   }
 
   trace.flush();

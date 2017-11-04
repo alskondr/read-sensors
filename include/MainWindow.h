@@ -58,6 +58,8 @@ private:
 
   std::shared_ptr<ProjectSettings> m_projectSettings; //!< Настройки проекта
 
+  const unsigned KILO = 1024; //!< 1024
+
 }; // class MainWindow
 
 #endif // MAINWINDOW_H

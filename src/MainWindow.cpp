@@ -31,9 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(QDir::homePath()));
 //  m_projectDirModel->setData(m_projectDirModel->index(QDir::homePath()), Qt::Checked, Qt::CheckStateRole);
 
-  connect(m_ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
+//  connect(m_ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
   connect(m_ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
   connect(m_ui->m_sensorsLogButton, SIGNAL(clicked(bool)), this, SLOT(pushSensorsLogButton()));
+  connect(m_ui->m_findSensorsButton, SIGNAL(clicked(bool)), this, SLOT(buildProject()));
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +66,7 @@ void MainWindow::printSensorsLog()
 
   //  sensorsDecoder.printDebug("traceSensorsVector.txt");
 
-  m_projectDirModel->getCheckedFiles();
+//  m_projectDirModel->getCheckedFiles();
 }
 
 void MainWindow::pushProjectDirButton()
@@ -88,15 +89,50 @@ void MainWindow::pushSensorsLogButton()
 
 void MainWindow::buildProject()
 {
+  // Save settings
+  readSettingsFromForm();
+  m_projectSettings->saveSettings();
 
+  /*!
+   * \todo Проверка директории с проектом на существование
+   */
+
+  // Set project to ProjectDirModel
+  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(m_projectSettings->getProjectDir()));
+  m_projectDirModel->setData(m_projectDirModel->index(m_projectSettings->getProjectDir()), Qt::Checked, Qt::CheckStateRole);
+
+  // Build project
+  // Sensors from all files
+  std::vector<Sensor> sensorsFromAllFiles = m_projectModel->readSensors(m_projectDirModel->getAllFiles(m_projectSettings->getProjectDir()));
+  ProjectModel::printSensors(sensorsFromAllFiles, QString::fromUtf8("sensors-from-all-files.txt"));
+  // Sensors from checked files
+  std::vector<Sensor> sensorsFromCheckedFiles = m_projectModel->readSensors(m_projectDirModel->getCheckedFiles(m_projectSettings->getProjectDir()));
+  ProjectModel::printSensors(sensorsFromCheckedFiles, QString::fromUtf8("sensors-from-checked-files.txt"));
 }
 
 void MainWindow::printSettingsToForm()
 {
   m_ui->m_sensorNameLineEdit->setText(m_projectSettings->getSensorName());
+  m_ui->m_projectDirLineEdit->setText(m_projectSettings->getProjectDir());
+  m_ui->m_sensorsLogLineEdit->setText(m_projectSettings->getSensorsLogFileName());
+
+  unsigned level = 0;
+  double logSize = m_projectSettings->getSensorsLogSize();
+  while (logSize >= KILO)
+  {
+    logSize = logSize / KILO;
+    level++;
+  }
+  m_ui->m_logSizeLineEdit->setText(QString::number(logSize));
+  m_ui->m_logSizeComboBox->setCurrentIndex(level);
 }
 
 void MainWindow::readSettingsFromForm()
 {
   m_projectSettings->setSensorName(m_ui->m_sensorNameLineEdit->text());
+  m_projectSettings->setProjectDir(m_ui->m_projectDirLineEdit->text());
+  m_projectSettings->setSensorsLogFileName(m_ui->m_sensorsLogLineEdit->text());
+
+  double logSize = m_ui->m_logSizeLineEdit->text().toDouble() * pow(KILO, m_ui->m_logSizeComboBox->currentIndex());
+  m_projectSettings->setSensorsLogSize((int)logSize);
 }
