@@ -30,15 +30,15 @@ public:
   QStringList getAllFiles(const QString& dirName);
 
   /*!
+   * \todo Добавить функцию отметки списка файлов
+   */
+private:
+  /*!
    * \brief Внесение отметок для родственных узлов дерева для текущего узла
    * \param index - узел, для которого отмечаются родственники
    */
   void checkRelativeData(const QModelIndex& index);
 
-  /*!
-   * \todo Добавить функцию отметки списка файлов
-   */
-private:
   mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
 }; // class ProjectDirModel
 

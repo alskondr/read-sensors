@@ -10,15 +10,16 @@ TARGET = read-sensors
 
 TEMPLATE = app
 
+INCLUDEPATH += include/
+
 SOURCES += src/main.cpp \
-    src/SensorsReader.cpp \
     src/Sensor.cpp \
-    src/SensorsDecoder.cpp \
     src/MainWindow.cpp \
     src/ProjectDirModel.cpp \
-    src/ProjectModel.cpp \
     src/Log.cpp \
-    src/ProjectSettings.cpp
+    src/ProjectSettings.cpp \
+    src/SensorFinder.cpp \
+    src/SensorLogWriter.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -32,14 +33,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    include/SensorsReader.h \
     include/Sensor.h \
-    include/SensorsDecoder.h \
     include/MainWindow.h \
     include/ProjectDirModel.h \
-    include/ProjectModel.h \
     include/Log.h \
-    include/ProjectSettings.h
+    include/ProjectSettings.h \
+    include/SensorFinder.h \
+    include/SensorLogWriter.h
 
 FORMS += \
     forms/MainWindow.ui

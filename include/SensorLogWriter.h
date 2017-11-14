@@ -3,17 +3,14 @@
 
 #include "Sensor.h"
 
-#include <QList>
-
 #include <vector>
 #include <set>
 
-class SensorsDecoder
+class SensorLogWriter
 {
 public:
-  SensorsDecoder();
 
-  typedef std::vector<std::vector<std::pair<int, int> > > SensorsVector;
+  typedef std::vector<std::vector<std::pair<int, int>>> SensorsVector; //!< Структура для хранения списка датчиков разбитых по файлам
 
   /*!
    * \brief Чтение списка датчиков и составление вектора с ними,
@@ -22,7 +19,7 @@ public:
    * При этом осуществляется формирование векторов всех найденных уникальных датчиков и всех удаленных датчиков (не уникальные)
    * \param sensorsList - список датчиков
    */
-  void readSensors(QList<Sensor> sensorsList);
+  void readSensors(const std::vector<Sensor>& sensorsList);
 
   /*!
    * \brief Вывод лога датчиков в файл до указанного размера и формирование множества всех уникальных выведенных в файл датчиков
@@ -53,11 +50,15 @@ public:
    */
   int getAmountAllUniqueSensors() const;
 
+  /*!
+   * \brief Очистка данных класса
+   */
+  void clear();
 private:
   SensorsVector m_sensors; //! Структура для хранения датчиков датчиков, разбитых по файлам
-  std::vector<std::pair<int, int> > m_delSensors; //! Вектор с удаленными датчиками при считывании датчиков
-  std::set<std::pair<int, int> > m_allUniqueSensors; //! Номера всех датчиков, которые приходят на вход
-  std::set<std::pair<int, int> > m_printUniqueSensors; //! Номера записанных сенсоров в лог
-};
+  std::vector<std::pair<int, int>> m_delSensors; //! Вектор с удаленными датчиками при считывании датчиков
+  std::set<std::pair<int, int>> m_allUniqueSensors; //! Номера всех датчиков, которые приходят на вход
+  std::set<std::pair<int, int>> m_printUniqueSensors; //! Номера записанных сенсоров в лог
+}; // class SensorLogWriter
 
 #endif // SENSORSDECODER_H

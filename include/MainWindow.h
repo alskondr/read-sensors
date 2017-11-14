@@ -9,9 +9,10 @@ namespace Ui {
   class MainWindow;
 }
 
-class ProjectModel;
+class SensorFinder;
 class ProjectDirModel;
 class ProjectSettings;
+class SensorLogWriter;
 
 class MainWindow : public QMainWindow
 {
@@ -39,7 +40,7 @@ public:
   /*!
    * \brief Поиск датчиков в проекте
    */
-  Q_SLOT void buildProject();
+  Q_SLOT void findSensors();
 
 private:
   /*!
@@ -53,8 +54,10 @@ private:
   void readSettingsFromForm();
 
   std::unique_ptr<Ui::MainWindow> m_ui; //!< Форма главного окна
-  std::unique_ptr<ProjectModel> m_projectModel; //!< Модель данных программы
   std::unique_ptr<ProjectDirModel> m_projectDirModel; //!< Модель данных для дерева проекта
+  std::unique_ptr<SensorFinder> m_sensorsFromAllFiles; //!< Сенсоры найденные во всех файлах проекта
+  std::unique_ptr<SensorFinder> m_sensorsFromCheckedFiles; //!< Сенсоры найденные в отмеченных файлах проекта
+  std::unique_ptr<SensorLogWriter> m_sensorLogWriter; //!< Лог датчиков
 
   std::shared_ptr<ProjectSettings> m_projectSettings; //!< Настройки проекта
 

@@ -1,35 +1,36 @@
-#include "include/SensorsDecoder.h"
+#include "SensorLogWriter.h"
 
 #include <QFile>
 #include <QTextStream>
 
-SensorsDecoder::SensorsDecoder()
-{
-
-}
-
-SensorsDecoder::SensorsVector SensorsDecoder::getSensors() const
+SensorLogWriter::SensorsVector SensorLogWriter::getSensors() const
 {
   return m_sensors;
 }
 
-int SensorsDecoder::getAmountPrintUniqueSensors() const
+int SensorLogWriter::getAmountPrintUniqueSensors() const
 {
   return m_printUniqueSensors.size();
 }
 
-int SensorsDecoder::getAmountAllUniqueSensors() const
+int SensorLogWriter::getAmountAllUniqueSensors() const
 {
   return m_allUniqueSensors.size();
 }
 
-void SensorsDecoder::readSensors(QList<Sensor> sensorsList)
+void SensorLogWriter::clear()
 {
   m_sensors.clear();
+  m_delSensors.clear();
+  m_allUniqueSensors.clear();
+  m_printUniqueSensors.clear();
+}
 
+void SensorLogWriter::readSensors(const std::vector<Sensor>& sensorsList)
+{
   QString currFile = "";
   std::vector<std::pair<int, int> > sensorsOnFile;
-  for (QList<Sensor>::Iterator it = sensorsList.begin(); it != sensorsList.end(); it++)
+  for (auto it = sensorsList.begin(); it != sensorsList.end(); it++)
   {
     bool isSave = true;
     if (QString::compare(currFile, (*it).getFileName()) != 0)
@@ -87,7 +88,7 @@ void SensorsDecoder::readSensors(QList<Sensor> sensorsList)
   m_sensors.push_back(sensorsOnFile);
 }
 
-double SensorsDecoder::printSensors(const QString& fileName, const int fileSize)
+double SensorLogWriter::printSensors(const QString& fileName, const int fileSize)
 {
   QFile out(fileName);
   out.open(QIODevice::Append | QIODevice::Text);
@@ -102,10 +103,10 @@ double SensorsDecoder::printSensors(const QString& fileName, const int fileSize)
   while (out.size() < fileSize)
   {
     // Делим файлы с датчиками на 10 частей, берем рандомно одну из них и выводим в файл
-    int partSize = m_sensors.size() / 10;
-    int startFileNumber = (rand() % 10) * partSize;
-    int endFileNumber = startFileNumber + partSize + 10;
-    for (SensorsVector::iterator fileIt = m_sensors.begin() + startFileNumber; fileIt != (endFileNumber < m_sensors.size() ? m_sensors.begin() + endFileNumber : m_sensors.end()); fileIt++)
+    unsigned partSize = m_sensors.size() / 10;
+    unsigned startFileNumber = (rand() % 10) * partSize;
+    unsigned endFileNumber = startFileNumber + partSize + 10;
+    for (auto fileIt = m_sensors.begin() + startFileNumber; fileIt != (endFileNumber < m_sensors.size() ? m_sensors.begin() + endFileNumber : m_sensors.end()); fileIt++)
     {
       for (std::vector<std::pair<int, int> >::iterator sensorIt = (*fileIt).begin(); sensorIt != (*fileIt).end(); sensorIt++)
       {
@@ -120,7 +121,7 @@ double SensorsDecoder::printSensors(const QString& fileName, const int fileSize)
   return (double)m_printUniqueSensors.size() / (double)m_allUniqueSensors.size();
 }
 
-bool SensorsDecoder::printDebug(const QString& fileName)
+bool SensorLogWriter::printDebug(const QString& fileName)
 {
   QFile out(fileName);
   out.open(QIODevice::WriteOnly);

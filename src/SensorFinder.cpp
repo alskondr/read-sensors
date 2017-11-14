@@ -1,23 +1,12 @@
-#include <include/ProjectModel.h>
+#include <SensorFinder.h>
 
-#include <include/ProjectSettings.h>
+#include <ProjectSettings.h>
 
-#include <QDir>
+#include <QFile>
 #include <iostream>
 
-ProjectModel::ProjectModel()
+bool SensorFinder::findSensors(const QStringList& projectFilesList, const QString& sensorName)
 {
-  m_projectSettings = std::shared_ptr<ProjectSettings>(new ProjectSettings(QDir::currentPath() + "/default.conf"));
-}
-
-ProjectModel::~ProjectModel()
-{
-}
-
-std::vector<Sensor> ProjectModel::readSensors(const QStringList& projectFilesList)
-{
-  std::vector<Sensor> sensorsList;
-
   // Перебор всех файлов проекта и поиск датчиков в них
   for (auto it = projectFilesList.begin(); it != projectFilesList.end(); it++)
   {
@@ -36,24 +25,24 @@ std::vector<Sensor> ProjectModel::readSensors(const QStringList& projectFilesLis
     {
       strNumder++;
       QByteArray data = parseFile.readLine();
-      if (data.indexOf(m_projectSettings->getSensorName()) >= 0)
+      if (data.indexOf(sensorName) >= 0)
       {
-        int startSensorParametrs = data.indexOf(m_projectSettings->getSensorName()) + m_projectSettings->getSensorName().length() + 1;
+        int startSensorParametrs = data.indexOf(sensorName) + sensorName.length() + 1;
         int endSensorParametrs = data.indexOf(")", startSensorParametrs);
         QString sensorParametrs = data.mid(startSensorParametrs, endSensorParametrs - startSensorParametrs);
         QStringList param = sensorParametrs.split(",", QString::SkipEmptyParts);
-        Sensor sensor(parseFile.fileName(), strNumder, m_projectSettings->getSensorName(), param.at(0).toInt(), param.at(1).toInt(), data);
-        sensorsList.push_back(sensor);
+        Sensor sensor(parseFile.fileName(), strNumder, sensorName, param.at(0).toInt(), param.at(1).toInt(), data);
+        m_findSensorsVector.push_back(sensor);
       }
     }
 
     parseFile.close();
   }
 
-  return sensorsList;
+  return true;
 }
 
-bool ProjectModel::printSensors(std::vector<Sensor>& sensorsList, const QString& traceName)
+bool SensorFinder::printSensors(const QString& traceName)
 {
   QFile trace(traceName);
   trace.open(QIODevice::WriteOnly);
@@ -62,7 +51,7 @@ bool ProjectModel::printSensors(std::vector<Sensor>& sensorsList, const QString&
 
   // Перебор всех датчиков с выводом в файл
   QString currFile;
-  for (auto it = sensorsList.begin(); it != sensorsList.end(); it++)
+  for (auto it = m_findSensorsVector.begin(); it != m_findSensorsVector.end(); it++)
   {
     if (QString::compare(currFile, it->getFileName()) != 0)
     {
@@ -81,12 +70,17 @@ bool ProjectModel::printSensors(std::vector<Sensor>& sensorsList, const QString&
   return true;
 }
 
-const std::shared_ptr<ProjectSettings>& ProjectModel::getProjectSettings() const
+unsigned SensorFinder::getSensorsCount() const
 {
-  return m_projectSettings;
+  return m_findSensorsVector.size();
 }
 
-void ProjectModel::setProjectSettings(const std::shared_ptr<ProjectSettings>& projectSettings)
+void SensorFinder::clear()
 {
-  m_projectSettings = projectSettings;
+  m_findSensorsVector.clear();
+}
+
+const std::vector<Sensor>& SensorFinder::getFindSensorsVector() const
+{
+  return m_findSensorsVector;
 }
