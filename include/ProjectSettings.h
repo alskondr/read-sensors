@@ -8,7 +8,6 @@ class ProjectSettings
 {
 public:
   ProjectSettings(const QString& fileName);
-  ~ProjectSettings();
 
   /*!
    * \brief Сохранение настроек программы
@@ -33,30 +32,33 @@ public:
   unsigned getSensorsLogSize() const;
   void setSensorsLogSize(const unsigned& sensorsLogSize);
 
+  QStringList getCheckedFiles() const;
+  void setCheckedFiles(const QStringList& checkedFiles);
+
+  QString getSensorsFromAllFilesFileName() const;
+  void setSensorsFromAllFilesFileName(const QString& sensorsFromAllFilesFileName);
+
+  QString getSensorsFromCheckedFilesFileName() const;
+  void setSensorsFromCheckedFilesFileName(const QString& sensorsFromCheckedFilesFileName);
+
+  QString getTraceSensorLogWriter() const;
+  void setTraceSensorLogWriter(const QString& traceSensorLogWriter);
+
+  QString getProgrammLogFileName() const;
+  void setProgrammLogFileName(const QString& programmLogFileName);
+
 private:
+  QSettings m_settings; //!< Настройки программы
+
   QString m_sensorName; //!< Имя датчика
   QString m_projectDir; //!< Путь к директории с проектом
   QString m_sensorsLogFileName; //!< Путь к файлу с логом датчиков
   unsigned m_sensorsLogSize; //!< Ориентировочный размер файла с логом датчиков
-  QString m_configFileName; //!< Путь к конфигурационному файлу
-
-  QSettings m_settings; //!< Настройки программы
-
-  /*!
-   * \todo Добавить список отмеченных файлов
-   */
-
-  /*!
-   * \todo Добавить путь к файлу с датчиками из всех файлов проекта
-   */
-
-  /*!
-   * \todo Добавить путь к файлу с датчиками из отмеченных файлов проекта
-   */
-
-  /*!
-   * \todo Удалить путь к конфигурационному файлу
-   */
+  QStringList m_checkedFiles; //!< Список путей к отмеченным файлам
+  QString m_sensorsFromAllFilesFileName; //!< Путь к файлу со всеми датчиками, найденными во всех файлах проекта
+  QString m_sensorsFromCheckedFilesFileName; //!< Путь к файлу со всеми датчиками, найденными в отмеченных файлах проекта
+  QString m_traceSensorLogWriter; //!< Вывод отладочной информации при записи лога датчиков
+  QString m_programmLogFileName; //!< Файл с логом программы
 
 }; // class ProjectSettings
 

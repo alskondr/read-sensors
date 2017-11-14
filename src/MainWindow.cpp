@@ -58,7 +58,7 @@ void MainWindow::printSensorsLog()
   m_ui->m_log->append(QString("Amount print unique sensors = ") + QString::number(m_sensorLogWriter->getAmountPrintUniqueSensors()) + "\n");
   std::cout << "Amount all unique sensors = " << m_sensorLogWriter->getAmountAllUniqueSensors() << std::endl;
   std::cout << "Amount print unique sensors = " << m_sensorLogWriter->getAmountPrintUniqueSensors() << std::endl;
-  m_sensorLogWriter->printDebug("traceSensorsVector.txt");
+  m_sensorLogWriter->printDebug(m_projectSettings->getTraceSensorLogWriter());
 }
 
 void MainWindow::pushProjectDirButton()
@@ -87,17 +87,16 @@ void MainWindow::findSensors()
 
   // Set project to ProjectDirModel
   m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(m_projectSettings->getProjectDir()));
-  m_projectDirModel->setData(m_projectDirModel->index(m_projectSettings->getProjectDir()), Qt::Checked, Qt::CheckStateRole);
 
   // Find sensors
   // Sensors from all files
   m_sensorsFromAllFiles->clear();
   m_sensorsFromAllFiles->findSensors(m_projectDirModel->getAllFiles(m_projectSettings->getProjectDir()), m_projectSettings->getSensorName());
-  m_sensorsFromAllFiles->printSensors(QString::fromUtf8("sensors-from-all-files.txt"));
+  m_sensorsFromAllFiles->printSensors(m_projectSettings->getSensorsFromAllFilesFileName());
   // Sensors from checked files
   m_sensorsFromCheckedFiles->clear();
   m_sensorsFromCheckedFiles->findSensors(m_projectDirModel->getCheckedFiles(m_projectSettings->getProjectDir()), m_projectSettings->getSensorName());
-  m_sensorsFromCheckedFiles->printSensors(QString::fromUtf8("sensors-from-checked-files.txt"));
+  m_sensorsFromCheckedFiles->printSensors(m_projectSettings->getSensorsFromCheckedFilesFileName());
 }
 
 void MainWindow::printSettingsToForm()
@@ -115,6 +114,9 @@ void MainWindow::printSettingsToForm()
   }
   m_ui->m_logSizeLineEdit->setText(QString::number(logSize));
   m_ui->m_logSizeComboBox->setCurrentIndex(level);
+
+  m_ui->m_projectTreeView->setRootIndex(m_projectDirModel->index(m_projectSettings->getProjectDir()));
+  m_projectDirModel->setCheckedFiles(m_projectSettings->getCheckedFiles());
 }
 
 void MainWindow::readSettingsFromForm()
@@ -126,7 +128,7 @@ void MainWindow::readSettingsFromForm()
   m_projectSettings->setSensorName(m_ui->m_sensorNameLineEdit->text());
   m_projectSettings->setProjectDir(m_ui->m_projectDirLineEdit->text());
   m_projectSettings->setSensorsLogFileName(m_ui->m_sensorsLogLineEdit->text());
-
   double logSize = m_ui->m_logSizeLineEdit->text().toDouble() * pow(KILO, m_ui->m_logSizeComboBox->currentIndex());
   m_projectSettings->setSensorsLogSize((int)logSize);
+  m_projectSettings->setCheckedFiles(m_projectDirModel->getCheckedFiles(m_projectSettings->getProjectDir()));
 }

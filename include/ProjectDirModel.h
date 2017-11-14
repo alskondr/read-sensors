@@ -23,6 +23,12 @@ public:
   QStringList getCheckedFiles(const QString& dirName);
 
   /*!
+   * \brief Отметка указанных файлов
+   * \param files - файлы
+   */
+  void setCheckedFiles(const QStringList& files);
+
+  /*!
    * \brief Рекурсивное формирование списка всех файлов из указанной директории
    * \param Имя папки
    * \return Список всех файлов
@@ -39,7 +45,7 @@ private:
    */
   void checkRelativeData(const QModelIndex& index);
 
-  mutable QMap <QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
+  QMap<QModelIndex, Qt::CheckState> m_checkedItems; //!< Мапа отметок файлов и папок
 }; // class ProjectDirModel
 
 #endif // INCLUDEPROJECTMODEL_H

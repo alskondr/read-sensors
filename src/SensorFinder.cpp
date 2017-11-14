@@ -12,11 +12,11 @@ bool SensorFinder::findSensors(const QStringList& projectFilesList, const QStrin
   {
     QFile parseFile(*it);
     if (!parseFile.exists())
-      break;
+      continue;
 
     parseFile.open(QIODevice::ReadOnly);
     if (!parseFile.isOpen())
-      break;
+      continue;
 
     std::cout << it->toStdString() << std::endl;
 

@@ -49,6 +49,19 @@ QStringList ProjectDirModel::getCheckedFiles(const QString& dirName)
   return checkedFiles;
 }
 
+void ProjectDirModel::setCheckedFiles(const QStringList& files)
+{
+  m_checkedItems.clear();
+
+  for (auto file : files)
+  {
+    if (!QFile::exists(file))
+      continue;
+
+    setData(this->index(file), Qt::Checked, Qt::CheckStateRole);
+  }
+}
+
 QStringList ProjectDirModel::getAllFiles(const QString& dirName)
 {
   QStringList allFiles;
