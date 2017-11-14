@@ -14,6 +14,10 @@ class ProjectDirModel;
 class ProjectSettings;
 class SensorLogWriter;
 
+/*!
+ * \todo Добавить кнопку анализа лога датчиков
+ */
+
 class MainWindow : public QMainWindow
 {
   Q_OBJECT

@@ -1,6 +1,7 @@
-#include "include/Log.h"
+#include "Log.h"
 
 #include <QColor>
+#include <QDateTime>
 
 Log::Log(const QString& fileName):
   m_logFile(fileName)
@@ -14,7 +15,10 @@ Log::~Log()
   m_logFile.close();
 }
 
-void Log::printStringToLog(QString message, unsigned level, QColor color = Qt::black)
+void Log::printStringToLog(const QString& message, unsigned level, const QColor& color = Qt::black)
 {
-  m_logStream << message;
+  QString upgradeMessage = QDateTime::currentDateTime().toString() + message;
+  m_logStream << upgradeMessage;
+
+  Q_EMIT printLog(upgradeMessage, level, color);
 }

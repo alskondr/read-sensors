@@ -6,6 +6,10 @@
 #include <vector>
 #include <set>
 
+/*!
+ * \todo Рефакторинг
+ */
+
 class SensorLogWriter
 {
 public:

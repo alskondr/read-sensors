@@ -4,9 +4,15 @@
 #include <QFile>
 #include <QTextStream>
 
-class Log
+class Log:
+  public QObject
 {
+  Q_OBJECT
 public:
+  /*!
+   * \brief Конструктор Log
+   * \param fileName - имя файла с логом
+   */
   Log(const QString& fileName);
 
   ~Log();
@@ -17,7 +23,23 @@ public:
    * \param level - уровень вывода
    * \param color - цвет строки
    */
-  void printStringToLog(QString message, unsigned level, QColor color);
+  void printStringToLog(const QString& message, unsigned level, const QColor& color);
+
+  //! Описание устройств вывода
+  enum LogDevice
+  {
+    FILE = 0,
+    WINDOW = 1,
+    ALL = 2
+  };
+
+  /*!
+   * \brief Сигнал о записи строки в лог
+   * \param message - строка
+   * \param level - уровень вывода
+   * \param color - цвет строки
+   */
+  Q_SIGNAL void printLog(const QString& message, unsigned level, const QColor& color);
 
 private:
   QFile m_logFile; //!< Файл с логом программы
