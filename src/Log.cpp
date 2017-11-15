@@ -3,22 +3,63 @@
 #include <QColor>
 #include <QDateTime>
 
-Log::Log(const QString& fileName):
-  m_logFile(fileName)
+namespace Log
 {
-  m_logFile.open(QIODevice::WriteOnly | QIODevice::Text);
-  m_logStream.setDevice(&m_logFile);
-}
+  LogWriter::LogWriter()
+  {
+    m_logFile = NULL;
+    m_logWindow = NULL;
+  }
 
-Log::~Log()
-{
-  m_logFile.close();
-}
+  LogWriter::~LogWriter()
+  {
+    if (m_logFile != NULL)
+    {
+      if (m_logFile->isOpen())
+        m_logFile->close();
+      delete m_logFile;
+    }
+  }
 
-void Log::printStringToLog(const QString& message, unsigned level, const QColor& color = Qt::black)
-{
-  QString upgradeMessage = QDateTime::currentDateTime().toString() + message;
-  m_logStream << upgradeMessage;
+  void LogWriter::printStringToLog(const QString& message, unsigned device, const QColor& color)
+  {
+    QString upgradeMessage = QTime::currentTime().toString() + QString::fromUtf8(" >>> ") + message;
 
-  Q_EMIT printLog(upgradeMessage, level, color);
+    if (device == FILE || device == ALL_DEVICE)
+    {
+      if (m_logFile != NULL && m_logFile->isOpen())
+        m_logFile->write(upgradeMessage.toUtf8() + "\n");
+    }
+    if (device == WINDOW || device == ALL_DEVICE)
+    {
+      if (m_logWindow != NULL)
+      {
+        m_logWindow->setTextColor(color);
+        m_logWindow->append(upgradeMessage);
+      }
+    }
+  }
+
+  void LogWriter::setLogFile(const QString& fileName)
+  {
+    if (m_logFile != NULL)
+    {
+      if (m_logFile->isOpen())
+        m_logFile->close();
+      delete m_logFile;
+    }
+
+    m_logFile = new QFile(fileName);
+    m_logFile->open(QIODevice::WriteOnly | QIODevice::Text);
+  }
+
+  void LogWriter::setLogWindow(QTextEdit* logWindow)
+  {
+    m_logWindow = logWindow;
+    QFont font;
+    font.setPointSize(8);
+    m_logWindow->setFont(font);
+  }
+
+  LogWriter g_log;
 }

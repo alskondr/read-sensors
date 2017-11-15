@@ -1,9 +1,9 @@
 #include <SensorFinder.h>
 
 #include <ProjectSettings.h>
+#include <Log.h>
 
 #include <QFile>
-#include <iostream>
 
 bool SensorFinder::findSensors(const QStringList& projectFilesList, const QString& sensorName)
 {
@@ -18,7 +18,7 @@ bool SensorFinder::findSensors(const QStringList& projectFilesList, const QStrin
     if (!parseFile.isOpen())
       continue;
 
-    std::cout << it->toStdString() << std::endl;
+    Log::g_log.printStringToLog(*it, Log::FILE);
 
     int strNumder = 0;
     while (!parseFile.atEnd())

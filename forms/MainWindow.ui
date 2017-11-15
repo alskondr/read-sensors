@@ -107,7 +107,7 @@
                      <string>Директория, в которой располагаются файлы проекта</string>
                     </property>
                     <property name="text">
-                     <string>Директория с проектом:</string>
+                     <string>Проект:</string>
                     </property>
                    </widget>
                   </item>
@@ -246,7 +246,7 @@
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
-             <verstretch>1</verstretch>
+             <verstretch>2</verstretch>
             </sizepolicy>
            </property>
            <property name="toolTip">
