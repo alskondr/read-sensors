@@ -63,11 +63,17 @@ void MainWindow::printSensorsLog()
 
   // Фильтруем датчики и выводим их в лог
   m_sensorLogWriter->readSensors(m_sensorsFromCheckedFiles->getFindSensorsVector());
-  m_sensorLogWriter->printSensors(m_projectSettings->getSensorsLogFileName(), m_projectSettings->getSensorsLogSize());
-  m_sensorLogWriter->printDebug(m_projectSettings->getTraceSensorLogWriter());
+  Log::g_log.printStringToLog(QString::fromUtf8("Количество всех уникальных датчиков в проекте: ") + QString::number(m_sensorLogWriter->getAmountAllUniqueSensors()), Log::ALL_DEVICE, Qt::green);
+  if (m_sensorLogWriter->printSensors(m_projectSettings->getSensorsLogFileName(), m_projectSettings->getSensorsLogSize()))
+  {
+    Log::g_log.printStringToLog(QString::fromUtf8("Количество уникальных датчиков, записанных в лог: ") + QString::number(m_sensorLogWriter->getAmountPrintUniqueSensors()), Log::ALL_DEVICE);
+    m_sensorLogWriter->printDebug(m_projectSettings->getTraceSensorLogWriter());
+  }
+  else
+  {
+    Log::g_log.printStringToLog(QString::fromUtf8("Ошибка записи лога датчиков!!!"), Log::ALL_DEVICE, Qt::red);
+  }
 
-  Log::g_log.printStringToLog(QString::fromUtf8("Количество всех уникальных датчиков в проекте: ") + QString::number(m_sensorLogWriter->getAmountAllUniqueSensors()), Log::ALL_DEVICE, Qt::red);
-  Log::g_log.printStringToLog(QString::fromUtf8("Количество уникальных датчиков, записанных в лог: ") + QString::number(m_sensorLogWriter->getAmountPrintUniqueSensors()), Log::ALL_DEVICE);
   m_ui->m_statusBar->showMessage(QString::fromUtf8(""));
 }
 
@@ -108,13 +114,13 @@ void MainWindow::findSensors()
   m_sensorsFromAllFiles->clear();
   m_sensorsFromAllFiles->findSensors(m_projectDirModel->getAllFiles(m_projectSettings->getProjectDir()), m_projectSettings->getSensorName());
   m_sensorsFromAllFiles->printSensors(m_projectSettings->getSensorsFromAllFilesFileName());
-  Log::g_log.printStringToLog(QString::fromUtf8("Найдено датчиков: ") + QString::number(m_sensorsFromAllFiles->getSensorsCount()), Log::ALL_DEVICE, Qt::red);
+  Log::g_log.printStringToLog(QString::fromUtf8("Найдено датчиков: ") + QString::number(m_sensorsFromAllFiles->getSensorsCount()), Log::ALL_DEVICE, Qt::green);
   // Sensors from checked files
   Log::g_log.printStringToLog(QString::fromUtf8("Поиск датчиков в отмеченных файлах проекта..."), Log::ALL_DEVICE);
   m_sensorsFromCheckedFiles->clear();
   m_sensorsFromCheckedFiles->findSensors(m_projectDirModel->getCheckedFiles(m_projectSettings->getProjectDir()), m_projectSettings->getSensorName());
   m_sensorsFromCheckedFiles->printSensors(m_projectSettings->getSensorsFromCheckedFilesFileName());
-  Log::g_log.printStringToLog(QString::fromUtf8("Найдено датчиков: ") + QString::number(m_sensorsFromCheckedFiles->getSensorsCount()), Log::ALL_DEVICE, Qt::red);
+  Log::g_log.printStringToLog(QString::fromUtf8("Найдено датчиков: ") + QString::number(m_sensorsFromCheckedFiles->getSensorsCount()), Log::ALL_DEVICE, Qt::green);
 
   m_ui->m_statusBar->showMessage(QString::fromUtf8(""));
 }

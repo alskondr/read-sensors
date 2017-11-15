@@ -88,13 +88,16 @@ void SensorLogWriter::readSensors(const std::vector<Sensor>& sensorsList)
   m_sensors.push_back(sensorsOnFile);
 }
 
-double SensorLogWriter::printSensors(const QString& fileName, const int fileSize)
+bool SensorLogWriter::printSensors(const QString& fileName, const int fileSize)
 {
+  if (getAmountAllUniqueSensors() == 0)
+    return false;
+
   QFile out(fileName);
   out.open(QIODevice::Append | QIODevice::Text);
   if (!out.isOpen())
   {
-    return 0.0;
+    return false;
   }
 
   QTextStream outStream(&out);
@@ -118,7 +121,7 @@ double SensorLogWriter::printSensors(const QString& fileName, const int fileSize
 
   out.close();
 
-  return (double)m_printUniqueSensors.size() / (double)m_allUniqueSensors.size();
+  return true;
 }
 
 bool SensorLogWriter::printDebug(const QString& fileName)
