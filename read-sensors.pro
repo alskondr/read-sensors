@@ -43,3 +43,6 @@ HEADERS += \
 
 FORMS += \
     forms/MainWindow.ui
+
+# Объявление номера версии проекта для использования в коде
+DEFINES += PROJECT_VERSION=$${PROJECT_VERSION}

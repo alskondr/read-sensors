@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_ui->m_sensorsLogButton, SIGNAL(clicked(bool)), this, SLOT(pushSensorsLogButton()));
   connect(m_ui->m_findSensorsButton, SIGNAL(clicked(bool)), this, SLOT(findSensors()));
 
+  connect(m_ui->m_exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
+
   Log::g_log.printStringToLog(QString::fromUtf8("\"Программа по работе с датчиками в проекте\" запущена..."), Log::ALL_DEVICE);
   printSettingsToForm();
 }
