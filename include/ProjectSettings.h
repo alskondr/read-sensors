@@ -19,6 +19,12 @@ public:
    */
   void loadSettings();
 
+  /*!
+   * \brief Получить путь к файлу с настройками
+   * \return Путь к файлу с настройками
+   */
+  QString getSettingsFileName() const;
+
   // Setters and getters
   QString getSensorName() const;
   void setSensorName(const QString& sensorName);

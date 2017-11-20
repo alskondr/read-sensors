@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_ui->m_exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
   connect(m_ui->m_aboutAction, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
   connect(m_ui->m_helpAction, SIGNAL(triggered(bool)), this, SLOT(showHelpWindow()));
+  connect(m_ui->m_openAction, SIGNAL(triggered(bool)), this, SLOT(openSettings()));
+  connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveSettings()));
 
   Log::g_log.printStringToLog(QString::fromUtf8("\"Программа по работе с датчиками в проекте\" запущена..."), Log::ALL_DEVICE);
   printSettingsToForm();
@@ -70,6 +72,7 @@ void MainWindow::printSensorsLog()
   // Save settings
   readSettingsFromForm();
   m_projectSettings->saveSettings();
+  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
 
   m_sensorLogWriter->clear();
 
@@ -91,7 +94,7 @@ void MainWindow::printSensorsLog()
 
 void MainWindow::pushProjectDirButton()
 {
-  QString projectDirPath = QFileDialog::getExistingDirectory(0, "Выберите директорию с проектом...", QDir::homePath());
+  QString projectDirPath = QFileDialog::getExistingDirectory(this, "Выберите директорию с проектом...", QDir::homePath());
   if (!projectDirPath.isEmpty())
   {
     m_ui->m_projectDirLineEdit->setText(projectDirPath);
@@ -100,7 +103,7 @@ void MainWindow::pushProjectDirButton()
 
 void MainWindow::pushSensorsLogButton()
 {
-  QString sensorsLogPath = QFileDialog::getOpenFileName(0, "Выбирете файл лога с сенсорами...");
+  QString sensorsLogPath = QFileDialog::getOpenFileName(this, "Выбирете файл лога с сенсорами...");
   if (!sensorsLogPath.isEmpty())
   {
     m_ui->m_sensorsLogLineEdit->setText(sensorsLogPath);
@@ -115,6 +118,7 @@ void MainWindow::findSensors()
   // Save settings
   readSettingsFromForm();
   m_projectSettings->saveSettings();
+  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
 
   // Set project to ProjectDirModel
   Log::g_log.printStringToLog(QString::fromUtf8("Загрузка проекта: ") + m_projectSettings->getProjectDir(), Log::ALL_DEVICE);
@@ -147,8 +151,35 @@ void MainWindow::showHelpWindow()
   m_helpWindow->show();
 }
 
+void MainWindow::openSettings()
+{
+  QString settingsFileName = QFileDialog::getOpenFileName(this, "Выбирете файл c настройками...", m_projectSettings->getSettingsFileName(), QString::fromUtf8("Настройки проекта (*.conf);;Все файлы (*)"));
+  if (!settingsFileName.isEmpty())
+  {
+    m_projectSettings.reset();
+    m_projectSettings = std::shared_ptr<ProjectSettings>(new ProjectSettings(settingsFileName));
+    m_projectSettings->loadSettings();
+    printSettingsToForm();
+  }
+}
+
+void MainWindow::saveSettings()
+{
+  QString settingsFileName = QFileDialog::getSaveFileName(this, "Выбирете файл для сохранения настроек...", m_projectSettings->getSettingsFileName(), QString::fromUtf8("Настройки проекта (*.conf);;Все файлы (*)"));
+  if (!settingsFileName.isEmpty())
+  {
+    m_projectSettings.reset();
+    m_projectSettings = std::shared_ptr<ProjectSettings>(new ProjectSettings(settingsFileName));
+    readSettingsFromForm();
+    m_projectSettings->saveSettings();
+    Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+  }
+}
+
 void MainWindow::printSettingsToForm()
 {
+  Log::g_log.printStringToLog(QString::fromUtf8("Загрузка настроек: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+
   m_ui->m_sensorNameLineEdit->setText(m_projectSettings->getSensorName());
   m_ui->m_projectDirLineEdit->setText(m_projectSettings->getProjectDir());
   m_ui->m_sensorsLogLineEdit->setText(m_projectSettings->getSensorsLogFileName());

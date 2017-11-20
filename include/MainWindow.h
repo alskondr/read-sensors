@@ -58,6 +58,16 @@ public:
    */
   Q_SLOT void showHelpWindow();
 
+  /*!
+   * \brief Загрузка файла с настройками
+   */
+  Q_SLOT void openSettings();
+
+  /*!
+   * \brief Сохранение файла с настройками
+   */
+  Q_SLOT void saveSettings();
+
 private:
   /*!
    * \brief Вывод настроек проекта на форму

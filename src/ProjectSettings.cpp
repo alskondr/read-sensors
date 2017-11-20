@@ -122,3 +122,8 @@ void ProjectSettings::loadSettings()
   m_traceSensorLogWriter = m_settings.value("traceSensorsLogWriter", QDir::currentPath() + QString::fromUtf8("/trace-sensor-log-writer.txt")).toString();
   m_programmLogFileName = m_settings.value("programmLogFileName", QDir::currentPath() + QString::fromUtf8("/log.txt")).toString();
 }
+
+QString ProjectSettings::getSettingsFileName() const
+{
+  return m_settings.fileName();
+}
