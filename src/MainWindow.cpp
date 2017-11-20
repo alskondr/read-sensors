@@ -6,6 +6,7 @@
 #include <ProjectSettings.h>
 #include <SensorLogWriter.h>
 #include <Log.h>
+#include <AboutWindow.h>
 
 #include <QTextFrame>
 #include <QFileDialog>
@@ -37,12 +38,16 @@ MainWindow::MainWindow(QWidget *parent) :
   Log::g_log.setLogFile(m_projectSettings->getProgrammLogFileName());
   Log::g_log.setLogWindow(m_ui->m_log);
 
+  // Окно "О программе"
+  m_aboutWindow = std::shared_ptr<AboutWindow>(new AboutWindow(this));
+
   connect(m_ui->m_printSensorsButton, SIGNAL(clicked(bool)), this, SLOT(printSensorsLog()));
   connect(m_ui->m_projectDirButton, SIGNAL(clicked(bool)), this, SLOT(pushProjectDirButton()));
   connect(m_ui->m_sensorsLogButton, SIGNAL(clicked(bool)), this, SLOT(pushSensorsLogButton()));
   connect(m_ui->m_findSensorsButton, SIGNAL(clicked(bool)), this, SLOT(findSensors()));
 
   connect(m_ui->m_exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
+  connect(m_ui->m_aboutAction, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
 
   Log::g_log.printStringToLog(QString::fromUtf8("\"Программа по работе с датчиками в проекте\" запущена..."), Log::ALL_DEVICE);
   printSettingsToForm();
@@ -125,6 +130,11 @@ void MainWindow::findSensors()
   Log::g_log.printStringToLog(QString::fromUtf8("Найдено датчиков: ") + QString::number(m_sensorsFromCheckedFiles->getSensorsCount()), Log::ALL_DEVICE, Qt::green);
 
   m_ui->m_statusBar->showMessage(QString::fromUtf8(""));
+}
+
+void MainWindow::showAboutWindow()
+{
+  m_aboutWindow->show();
 }
 
 void MainWindow::printSettingsToForm()

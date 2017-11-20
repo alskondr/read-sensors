@@ -13,6 +13,7 @@ class SensorFinder;
 class ProjectDirModel;
 class ProjectSettings;
 class SensorLogWriter;
+class AboutWindow;
 
 /*!
  * \todo Добавить кнопку анализа лога датчиков
@@ -46,6 +47,11 @@ public:
    */
   Q_SLOT void findSensors();
 
+  /*!
+   * \brief Отображение окна "О программе"
+   */
+  Q_SLOT void showAboutWindow();
+
 private:
   /*!
    * \brief Вывод настроек проекта на форму
@@ -64,6 +70,8 @@ private:
   std::unique_ptr<SensorLogWriter> m_sensorLogWriter; //!< Лог датчиков
 
   std::shared_ptr<ProjectSettings> m_projectSettings; //!< Настройки проекта
+
+  std::shared_ptr<AboutWindow> m_aboutWindow; //!< Окно "О программе"
 
   const unsigned KILO = 1024; //!< 1024
 
