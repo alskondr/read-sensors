@@ -20,7 +20,8 @@ SOURCES += src/main.cpp \
     src/ProjectSettings.cpp \
     src/SensorFinder.cpp \
     src/SensorLogWriter.cpp \
-    src/AboutWindow.cpp
+    src/AboutWindow.cpp \
+    src/HelpWindow.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -41,11 +42,16 @@ HEADERS += \
     include/ProjectSettings.h \
     include/SensorFinder.h \
     include/SensorLogWriter.h \
-    include/AboutWindow.h
+    include/AboutWindow.h \
+    include/HelpWindow.h
 
 FORMS += \
     form/MainWindow.ui \
-    form/AboutWindow.ui
+    form/AboutWindow.ui \
+    form/HelpWindow.ui
 
 # Объявление номера версии проекта для использования в коде
 DEFINES += PROJECT_VERSION=$${PROJECT_VERSION}
+
+RESOURCES += \
+    etc/resources.qrc

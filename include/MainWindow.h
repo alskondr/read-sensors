@@ -14,6 +14,7 @@ class ProjectDirModel;
 class ProjectSettings;
 class SensorLogWriter;
 class AboutWindow;
+class HelpWindow;
 
 /*!
  * \todo Добавить кнопку анализа лога датчиков
@@ -52,6 +53,11 @@ public:
    */
   Q_SLOT void showAboutWindow();
 
+  /*!
+   * \brief Отображение окна "Справка"
+   */
+  Q_SLOT void showHelpWindow();
+
 private:
   /*!
    * \brief Вывод настроек проекта на форму
@@ -72,6 +78,7 @@ private:
   std::shared_ptr<ProjectSettings> m_projectSettings; //!< Настройки проекта
 
   std::shared_ptr<AboutWindow> m_aboutWindow; //!< Окно "О программе"
+  std::shared_ptr<HelpWindow> m_helpWindow; //!< Окно "Справка"
 
   const unsigned KILO = 1024; //!< 1024
 
