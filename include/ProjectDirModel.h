@@ -34,10 +34,6 @@ public:
    * \return Список всех файлов
    */
   QStringList getAllFiles(const QString& dirName);
-
-  /*!
-   * \todo Добавить функцию отметки списка файлов
-   */
 private:
   /*!
    * \brief Внесение отметок для родственных узлов дерева для текущего узла

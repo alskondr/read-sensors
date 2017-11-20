@@ -201,10 +201,6 @@ void MainWindow::printSettingsToForm()
 
 void MainWindow::readSettingsFromForm()
 {
-  /*!
-   * \todo Проверка директории с проектом на существование
-   */
-
   m_projectSettings->setSensorName(m_ui->m_sensorNameLineEdit->text());
   m_projectSettings->setProjectDir(m_ui->m_projectDirLineEdit->text());
   m_projectSettings->setSensorsLogFileName(m_ui->m_sensorsLogLineEdit->text());
