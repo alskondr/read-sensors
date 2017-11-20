@@ -72,7 +72,7 @@ void MainWindow::printSensorsLog()
   // Save settings
   readSettingsFromForm();
   m_projectSettings->saveSettings();
-  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE);
 
   m_sensorLogWriter->clear();
 
@@ -118,7 +118,7 @@ void MainWindow::findSensors()
   // Save settings
   readSettingsFromForm();
   m_projectSettings->saveSettings();
-  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+  Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE);
 
   // Set project to ProjectDirModel
   Log::g_log.printStringToLog(QString::fromUtf8("Загрузка проекта: ") + m_projectSettings->getProjectDir(), Log::ALL_DEVICE);
@@ -172,13 +172,13 @@ void MainWindow::saveSettings()
     m_projectSettings = std::shared_ptr<ProjectSettings>(new ProjectSettings(settingsFileName));
     readSettingsFromForm();
     m_projectSettings->saveSettings();
-    Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+    Log::g_log.printStringToLog(QString::fromUtf8("Настроеки проекта сохранены: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE);
   }
 }
 
 void MainWindow::printSettingsToForm()
 {
-  Log::g_log.printStringToLog(QString::fromUtf8("Загрузка настроек: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE, Qt::blue);
+  Log::g_log.printStringToLog(QString::fromUtf8("Загрузка настроек: ") + m_projectSettings->getSettingsFileName(), Log::ALL_DEVICE);
 
   m_ui->m_sensorNameLineEdit->setText(m_projectSettings->getSensorName());
   m_ui->m_projectDirLineEdit->setText(m_projectSettings->getProjectDir());
